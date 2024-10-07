@@ -26,7 +26,8 @@ func main() {
 					if err != nil {
 						return err
 					}
-					c := n.AddChannel(list)
+					name := cCtx.String("name")
+					c := n.AddChannel(list, name)
 					err = n.SetChannelLive(c.ID)
 					if err != nil {
 						return err
@@ -42,12 +43,12 @@ func main() {
 					},
 					&cli.StringFlag{
 						Name:  "network_name",
-						Value: "Homelab Cable",
+						Value: "xforge server",
 						Usage: "the name of your homelab cable network",
 					},
 					&cli.StringFlag{
 						Name:  "network_owner",
-						Value: "clabretro",
+						Value: "xforge",
 						Usage: "the owner of your homelab cable network",
 					},
 					&cli.StringFlag{
@@ -55,6 +56,12 @@ func main() {
 						Value:    "",
 						Usage:    "path to media folder",
 						Required: true,
+					},
+					&cli.StringFlag{
+						Name:     "name",
+						Value:    "",
+						Usage:    "name of the channel",
+						Required: false,
 					},
 				},
 			},

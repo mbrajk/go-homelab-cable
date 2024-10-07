@@ -3,6 +3,7 @@ package network
 import (
 	"context"
 	"errors"
+	"log"
 
 	"github.com/clabland/go-homelab-cable/player"
 )
@@ -10,7 +11,7 @@ import (
 var ErrNetworkNoChannelPlaying = errors.New("network no channel playing")
 var ErrNetworkChannelNotFound = errors.New("network channel not found")
 
-var DefaultChannelName = "default"
+//var DefaultChannelName = "skytv"
 
 type Network struct {
 	Ctx   context.Context
@@ -23,10 +24,10 @@ type Network struct {
 
 func NewNetwork(name string, owner string) *Network {
 	if name == "" {
-		name = "Homelab Cable"
+		name = "xforge server"
 	}
 	if owner == "" {
-		owner = "clabretro"
+		owner = "xforge"
 	}
 
 	return &Network{
@@ -36,11 +37,8 @@ func NewNetwork(name string, owner string) *Network {
 	}
 }
 
-func (n *Network) AddChannel(list *player.MediaList) *Channel {
-	c := NewChannel(list)
-	if len(n.channels) == 0 {
-		c.ID = DefaultChannelName
-	}
+func (n *Network) AddChannel(list *player.MediaList, name string) *Channel {
+	c := NewChannel(list, name)
 	n.channels[c.ID] = c
 	return c
 }
@@ -88,6 +86,7 @@ func (n *Network) SetChannelLive(ID string) error {
 		return err
 	}
 	n.tunedChannel = c.ID
+	log.Print("tuned to channel ", c.ID)
 	return nil
 }
 

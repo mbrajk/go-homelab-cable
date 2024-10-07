@@ -2,6 +2,7 @@ package player
 
 import (
 	"errors"
+	"log"
 	"math/rand"
 	"os"
 	"path"
@@ -34,9 +35,13 @@ func NewMediaList(list []string, sortStrat MediaListSortStrategy) (*MediaList, e
 	}
 	ml := &MediaList{
 		list:         list,
+		nextList:     list,
 		SortStrategy: sortStrat,
 	}
 	copy(ml.nextList, list)
+	//log.Print(f)
+	//log.Print(list)
+	//log.Print(ml.nextList)
 	ml.SortStrategy.Sort(ml.list)
 	ml.SortStrategy.Sort(ml.nextList)
 	return ml, nil
@@ -55,7 +60,9 @@ func (ml *MediaList) Current() string {
 func (ml *MediaList) Next() string {
 	ml.mu.Lock()
 	defer ml.mu.Unlock()
-	if ml.current+1 > len(ml.list) {
+	//log.Print(ml.list)
+	//log.Print(ml.nextList)
+	if ml.current+1 >= len(ml.list) {
 		return ml.nextList[0]
 	}
 	return ml.list[ml.current+1]
@@ -64,7 +71,10 @@ func (ml *MediaList) Next() string {
 func (ml *MediaList) Advance() string {
 	ml.mu.Lock()
 	defer ml.mu.Unlock()
-	if ml.current+1 > len(ml.list) {
+	//log.Print(ml.current)
+	//log.Print(ml.list)
+	//log.Print(ml.nextList)
+	if ml.current+1 >= len(ml.list) {
 		ml.list, ml.nextList = ml.nextList, ml.list
 		ml.SortStrategy.Sort(ml.nextList)
 		ml.current = 0
@@ -75,9 +85,9 @@ func (ml *MediaList) Advance() string {
 }
 
 var VideoFiles map[string]struct{} = map[string]struct{}{
-	".avi": {},
+	//".avi": {},
 	".mp4": {},
-	".mkv": {},
+	//".mkv": {},
 }
 
 func FromFolder(folderPath string) (*MediaList, error) {
@@ -96,5 +106,6 @@ func FromFolder(folderPath string) (*MediaList, error) {
 	}); err != nil {
 		return nil, err
 	}
+	log.Print("loading files")
 	return NewMediaList(paths, SortStratRandom{})
 }

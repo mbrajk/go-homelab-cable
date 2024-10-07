@@ -1,6 +1,8 @@
 package network
 
 import (
+	"log"
+
 	"github.com/clabland/go-homelab-cable/player"
 	"github.com/google/uuid"
 )
@@ -11,9 +13,12 @@ type Channel struct {
 	p    player.Player
 }
 
-func NewChannel(list *player.MediaList) *Channel {
+func NewChannel(list *player.MediaList, name string) *Channel {
+	if name == "" {
+		name = uuid.New().String()
+	}
 	return &Channel{
-		ID:   uuid.New().String(),
+		ID:   name,
 		list: list,
 	}
 }
@@ -44,4 +49,10 @@ func (c *Channel) Current() string {
 func (c *Channel) PlayNext() string {
 	_ = c.p.PlayNext()
 	return c.Current()
+}
+
+func (c *Channel) AdvanceBySeconds(seconds int) int {
+	log.Print("Channel.AdvanceBySeconds() called")
+	ts := c.p.AdvanceBySeconds(seconds)
+	return ts
 }

@@ -50,3 +50,7 @@ func (n *NullPlayer) Shutdown() error {
 	n.done <- true
 	return nil
 }
+
+func (n *NullPlayer) AdvanceBySeconds(seconds int) int {
+	return 0
+}

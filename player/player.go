@@ -7,6 +7,7 @@ type Player interface {
 
 	Play(list *MediaList) error
 	PlayNext() error
+	AdvanceBySeconds(seconds int) int
 
 	Next() string
 	Current() string

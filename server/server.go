@@ -59,6 +59,8 @@ func (s *Server) Serve() {
 
 	// Routes that always just act upon the current live channel
 	e.PUT("/api/networks/:callsign/live/next", s.playLiveNext)
+	e.PUT("/api/networks/:callsign/live/advance", s.advanceBySecondsDefault)
+	e.PUT("/api/networks/:callsign/live/advance/:seconds", s.advanceBySeconds)
 
 	e.GET("/htmx/meta", s.getHtmxMeta)
 	e.GET("/htmx/status", s.getHtmxStatus)
