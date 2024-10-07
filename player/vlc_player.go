@@ -2,7 +2,6 @@ package player
 
 import (
 	"fmt"
-	"log"
 
 	vlc "github.com/adrg/libvlc-go/v3"
 )
@@ -126,7 +125,6 @@ func (p *VLCPlayer) Current() string {
 
 func (p *VLCPlayer) AdvanceBySeconds(seconds int) int {
 	// Get the current playback time (in milliseconds)
-	log.Print("AdvanceBySeconds-vlc")
 	currentTime, err := p.player.MediaTime()
 	if err != nil {
 		return 0

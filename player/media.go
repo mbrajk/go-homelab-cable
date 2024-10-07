@@ -39,9 +39,6 @@ func NewMediaList(list []string, sortStrat MediaListSortStrategy) (*MediaList, e
 		SortStrategy: sortStrat,
 	}
 	copy(ml.nextList, list)
-	//log.Print(f)
-	//log.Print(list)
-	//log.Print(ml.nextList)
 	ml.SortStrategy.Sort(ml.list)
 	ml.SortStrategy.Sort(ml.nextList)
 	return ml, nil
@@ -60,8 +57,6 @@ func (ml *MediaList) Current() string {
 func (ml *MediaList) Next() string {
 	ml.mu.Lock()
 	defer ml.mu.Unlock()
-	//log.Print(ml.list)
-	//log.Print(ml.nextList)
 	if ml.current+1 >= len(ml.list) {
 		return ml.nextList[0]
 	}
@@ -71,9 +66,6 @@ func (ml *MediaList) Next() string {
 func (ml *MediaList) Advance() string {
 	ml.mu.Lock()
 	defer ml.mu.Unlock()
-	//log.Print(ml.current)
-	//log.Print(ml.list)
-	//log.Print(ml.nextList)
 	if ml.current+1 >= len(ml.list) {
 		ml.list, ml.nextList = ml.nextList, ml.list
 		ml.SortStrategy.Sort(ml.nextList)
