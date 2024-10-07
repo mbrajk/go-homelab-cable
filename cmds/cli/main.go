@@ -43,12 +43,12 @@ func main() {
 					},
 					&cli.StringFlag{
 						Name:  "network_name",
-						Value: "xforge server",
+						Value: "",
 						Usage: "the name of your homelab cable network",
 					},
 					&cli.StringFlag{
 						Name:  "network_owner",
-						Value: "xforge",
+						Value: "",
 						Usage: "the owner of your homelab cable network",
 					},
 					&cli.StringFlag{

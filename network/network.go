@@ -11,8 +11,6 @@ import (
 var ErrNetworkNoChannelPlaying = errors.New("network no channel playing")
 var ErrNetworkChannelNotFound = errors.New("network channel not found")
 
-//var DefaultChannelName = "skytv"
-
 type Network struct {
 	Ctx   context.Context
 	Name  string
@@ -24,10 +22,10 @@ type Network struct {
 
 func NewNetwork(name string, owner string) *Network {
 	if name == "" {
-		name = "xforge server"
+		name = "default server"
 	}
 	if owner == "" {
-		owner = "xforge"
+		owner = "default"
 	}
 
 	return &Network{
